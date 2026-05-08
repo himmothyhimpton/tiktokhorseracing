@@ -1,48 +1,59 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Chop Shop Horse Race</title>
+    <title>FACESHOT-CHOPSHOP GLOBAL DERBY</title>
     <style>
-        body { background: #121212; color: white; font-family: 'Arial Black', sans-serif; overflow: hidden; text-align: center; }
-        #track { 
-            width: 90%; height: 250px; margin: 100px auto; position: relative;
-            background: repeating-linear-gradient(90deg, #222 0px, #222 50px, #333 50px, #333 100px);
-            border-bottom: 10px solid #444; border-top: 10px solid #444;
-        }
-        #horse { font-size: 100px; position: absolute; left: 0; bottom: 10px; transition: left 0.3s ease-out; }
-        #finish-line { position: absolute; right: 0; top: 0; bottom: 0; width: 20px; background: repeating-linear-gradient(0deg, black 0px, black 10px, white 10px, white 20px); }
-        h1 { font-size: 48px; text-shadow: 2px 2px #ff0000; margin-top: 50px; }
-        .stats { font-size: 32px; margin-top: 20px; color: #00ff00; }
+        body { background: #000; color: #fff; font-family: 'Arial Black', sans-serif; text-align: center; margin: 0; padding: 20px; }
+        .lane { width: 95%; height: 90px; border-bottom: 3px solid #333; margin: 10px auto; position: relative; background: #0a0a0a; display: flex; align-items: center; }
+        .horse { font-size: 60px; position: absolute; left: 0; transition: left 0.2s cubic-bezier(0.18, 0.89, 0.32, 1.28); z-index: 2; }
+        .finish { position: absolute; right: 0; width: 30px; height: 100%; background: repeating-linear-gradient(0deg, #fff 0, #fff 10px, #000 10px, #000 20px); border-left: 5px solid #ff0000; }
+        h1 { color: #ff0000; text-transform: uppercase; font-size: 50px; letter-spacing: 2px; margin-bottom: 10px; text-shadow: 3px 3px #fff; }
+        p { font-size: 24px; color: #ffcc00; font-weight: bold; }
+        #winner-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 100; justify-content: center; align-items: center; flex-direction: column; }
+        #winner-overlay h2 { font-size: 80px; color: #ff0000; text-shadow: 4px 4px #fff; }
     </style>
 </head>
 <body>
-    <h1>CHOP SHOP: ANY GIFT = RACE BOOST!</h1>
-    <div id="track">
-        <div id="horse">🐎</div>
-        <div id="finish-line"></div>
-    </div>
-    <div class="stats">TOTAL DISTANCE: <span id="dist">0</span>m</div>
+    <div id="winner-overlay"><h2 id="winner-text"></h2><p>PREPARING NEXT RACE...</p></div>
+    
+    <h1>FACESHOT-CHOPSHOP GLOBAL DERBY</h1>
+    <p>SEND GIFTS TO BOOST YOUR SQUAD!</p>
+
+    <div class="lane"><div id="h1" class="horse">🇲🇽🐎</div><div class="finish"></div></div>
+    <div class="lane"><div id="h2" class="horse">🇺🇸🐎</div><div class="finish"></div></div>
+    <div class="lane"><div id="h3" class="horse">🇧🇷🐎</div><div class="finish"></div></div>
+    <div class="lane"><div id="h4" class="horse">🇨🇦🐎</div><div class="finish"></div></div>
+    <div class="lane"><div id="h5" class="horse">🇬🇧🐎</div><div class="finish"></div></div>
 
     <script>
-        let pos = 0;
-        const horse = document.getElementById('horse');
-        const distLabel = document.getElementById('dist');
-        const trackWidth = document.getElementById('track').offsetWidth;
+        const winnerOverlay = document.getElementById('winner-overlay');
+        const winnerText = document.getElementById('winner-text');
+        let racing = true;
+
+        const move = (id, country) => {
+            if (!racing) return;
+            const el = document.getElementById(id);
+            let pos = parseInt(el.style.left) || 0;
+            pos += 35; 
+            const finishLine = window.innerWidth * 0.85;
+            
+            if (pos >= finishLine) {
+                racing = false;
+                el.style.left = finishLine + 'px';
+                winnerText.innerText = country + " WINS!";
+                winnerOverlay.style.display = 'flex';
+                setTimeout(() => { location.reload(); }, 5000); // 5 sec pause before reset
+            } else {
+                el.style.left = pos + 'px';
+            }
+        };
 
         window.addEventListener('keydown', (e) => {
-            // TikFinity presses SPACE on every gift
-            if (e.code === 'Space') {
-                pos += 25; // How much it moves per gift
-                
-                // If horse reaches finish line, reset to start
-                if (pos >= (trackWidth - 120)) {
-                    pos = 0;
-                    // Trigger a celebration sound/effect here if you want
-                }
-                
-                horse.style.left = pos + 'px';
-                distLabel.innerText = Math.floor(pos / 5);
-            }
+            if (e.key === '1') move('h1', 'MEXICO');
+            if (e.key === '2') move('h2', 'USA');
+            if (e.key === '3') move('h3', 'BRAZIL');
+            if (e.key === '4') move('h4', 'CANADA');
+            if (e.key === '5') move('h5', 'UK');
         });
     </script>
 </body>
