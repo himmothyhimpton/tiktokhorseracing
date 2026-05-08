@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chop Shop Horse Race</title>
+    <style>
+        body { background: #121212; color: white; font-family: 'Arial Black', sans-serif; overflow: hidden; text-align: center; }
+        #track { 
+            width: 90%; height: 250px; margin: 100px auto; position: relative;
+            background: repeating-linear-gradient(90deg, #222 0px, #222 50px, #333 50px, #333 100px);
+            border-bottom: 10px solid #444; border-top: 10px solid #444;
+        }
+        #horse { font-size: 100px; position: absolute; left: 0; bottom: 10px; transition: left 0.3s ease-out; }
+        #finish-line { position: absolute; right: 0; top: 0; bottom: 0; width: 20px; background: repeating-linear-gradient(0deg, black 0px, black 10px, white 10px, white 20px); }
+        h1 { font-size: 48px; text-shadow: 2px 2px #ff0000; margin-top: 50px; }
+        .stats { font-size: 32px; margin-top: 20px; color: #00ff00; }
+    </style>
+</head>
+<body>
+    <h1>CHOP SHOP: ANY GIFT = RACE BOOST!</h1>
+    <div id="track">
+        <div id="horse">🐎</div>
+        <div id="finish-line"></div>
+    </div>
+    <div class="stats">TOTAL DISTANCE: <span id="dist">0</span>m</div>
+
+    <script>
+        let pos = 0;
+        const horse = document.getElementById('horse');
+        const distLabel = document.getElementById('dist');
+        const trackWidth = document.getElementById('track').offsetWidth;
+
+        window.addEventListener('keydown', (e) => {
+            // TikFinity presses SPACE on every gift
+            if (e.code === 'Space') {
+                pos += 25; // How much it moves per gift
+                
+                // If horse reaches finish line, reset to start
+                if (pos >= (trackWidth - 120)) {
+                    pos = 0;
+                    // Trigger a celebration sound/effect here if you want
+                }
+                
+                horse.style.left = pos + 'px';
+                distLabel.innerText = Math.floor(pos / 5);
+            }
+        });
+    </script>
+</body>
+</html>
