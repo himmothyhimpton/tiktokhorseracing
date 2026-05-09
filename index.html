@@ -4,10 +4,10 @@
     <title>FACESHOT-CHOPSHOP GLOBAL DERBY</title>
     <style>
         body { background: #000; color: #fff; font-family: 'Arial Black', sans-serif; text-align: center; margin: 0; padding: 20px; }
-        .lane { width: 95%; height: 90px; border-bottom: 3px solid #333; margin: 10px auto; position: relative; background: #0a0a0a; display: flex; align-items: center; }
-        .horse { font-size: 60px; position: absolute; left: 0; transition: left 0.2s; z-index: 2; transform: scaleX(-1); } /* scaleX(-1) flips them! */
+        .lane { width: 95%; height: 95px; border-bottom: 3px solid #333; margin: 10px auto; position: relative; background: #0a0a0a; display: flex; align-items: center; }
+        /* scaleX(1) here because the horse emoji itself faces right. No flip needed if it's already right. */
+        .horse { font-size: 65px; position: absolute; left: 0; transition: left 0.2s; z-index: 2; display: flex; align-items: center; } 
         .finish { position: absolute; right: 0; width: 30px; height: 100%; background: repeating-linear-gradient(0deg, #fff 0, #fff 10px, #000 10px, #000 20px); border-left: 5px solid #ff0000; }
-        .country-label { position: absolute; left: 10px; color: #555; font-size: 20px; z-index: 1; }
         h1 { color: #ff0000; text-transform: uppercase; font-size: 50px; margin-bottom: 10px; text-shadow: 3px 3px #fff; }
         #winner-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 100; justify-content: center; align-items: center; flex-direction: column; }
     </style>
@@ -15,18 +15,19 @@
 <body>
     <div id="winner-overlay"><h2 id="winner-text" style="font-size:80px; color:red;"></h2></div>
     <h1>FACESHOT-CHOPSHOP GLOBAL DERBY</h1>
-    <div class="lane"><span class="country-label">🇲🇽 MEXICO</span><div id="h1" class="horse">🐎</div><div class="finish"></div></div>
-    <div class="lane"><span class="country-label">🇺🇸 USA</span><div id="h2" class="horse">🐎</div><div class="finish"></div></div>
-    <div class="lane"><span class="country-label">🇧🇷 BRAZIL</span><div id="h3" class="horse">🐎</div><div class="finish"></div></div>
-    <div class="lane"><span class="country-label">🇨🇦 CANADA</span><div id="h4" class="horse">🐎</div><div class="finish"></div></div>
-    <div class="lane"><span class="country-label">🇬🇧 UK</span><div id="h5" class="horse">🐎</div><div class="finish"></div></div>
+    <!-- We put the flag AND horse in the same moving div -->
+    <div class="lane"><div id="h1" class="horse"><span>🇲🇽</span>🐎</div><div class="finish"></div></div>
+    <div class="lane"><div id="h2" class="horse"><span>🇺🇸</span>🐎</div><div class="finish"></div></div>
+    <div class="lane"><div id="h3" class="horse"><span>🇧🇷</span>🐎</div><div class="finish"></div></div>
+    <div class="lane"><div id="h4" class="horse"><span>🇨🇦</span>🐎</div><div class="finish"></div></div>
+    <div class="lane"><div id="h5" class="horse"><span>🇬🇧</span>🐎</div><div class="finish"></div></div>
 
     <script>
         const move = (id, country) => {
             const el = document.getElementById(id);
             let pos = parseInt(el.style.left) || 0;
-            pos += 40; 
-            if (pos >= window.innerWidth * 0.85) {
+            pos += 45; 
+            if (pos >= window.innerWidth * 0.82) {
                 document.getElementById('winner-text').innerText = country + " WINS!";
                 document.getElementById('winner-overlay').style.display = 'flex';
                 setTimeout(() => { location.reload(); }, 4000);
@@ -34,11 +35,11 @@
             el.style.left = pos + 'px';
         };
         window.addEventListener('keydown', (e) => {
-            if (e.key === '1') move('h1', '🇲🇽 MEXICO');
-            if (e.key === '2') move('h2', '🇺🇸 USA');
-            if (e.key === '3') move('h3', '🇧🇷 BRAZIL');
-            if (e.key === '4') move('h4', '🇨🇦 CANADA');
-            if (e.key === '5') move('h5', '🇬🇧 UK');
+            if (e.key === '1') move('h1', 'MEXICO');
+            if (e.key === '2') move('h2', 'USA');
+            if (e.key === '3') move('h3', 'BRAZIL');
+            if (e.key === '4') move('h4', 'CANADA');
+            if (e.key === '5') move('h5', 'UK');
         });
     </script>
 </body>
