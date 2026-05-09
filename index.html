@@ -4,60 +4,82 @@
     <title>FACESHOT-CHOPSHOP GLOBAL DERBY</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background: #000; color: #fff; font-family: 'Arial Black', sans-serif; text-align: center; padding: 10px 14px 8px; overflow: hidden; user-select: none; }
-        h1 { color: #ff2222; font-size: 38px; text-transform: uppercase; text-shadow: 3px 3px 0 #fff2; margin-bottom: 3px; line-height: 1; }
+        body { background: #000; color: #fff; font-family: 'Arial Black', sans-serif; text-align: center; padding: 10px; overflow: hidden; }
+        h1 { color: #ff2222; font-size: 38px; text-transform: uppercase; text-shadow: 2px 2px 0 #fff2; margin-bottom: 5px; }
+        
         #track { width: 100%; }
-        .lane { width: 100%; height: 78px; margin: 4px 0; position: relative; background: #0a0a0a; border: 2px solid #1c1c1c; border-radius: 5px; overflow: hidden; }
-        .racer { position: absolute; left: 6px; top: 50%; transform: translateY(-50%); display: flex; align-items: center; transition: left 0.1s ease-out; z-index: 3; }
-        .stripe { width: 10px; height: 52px; border-radius: 3px 0 0 3px; flex-shrink: 0; display: flex; flex-direction: column; }
-        .stripe span { flex: 1; display: block; }
-        .horse { font-size: 54px; line-height: 1; display: inline-block; transform: scaleX(-1); }
-        .namelabel { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); font-size: 26px; font-weight: 900; letter-spacing: 3px; text-transform: uppercase; z-index: 1; opacity: 0.45; white-space: nowrap; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .finish { position: absolute; right: 0; top: 0; width: 28px; height: 100%; background: repeating-linear-gradient(180deg, #fff 0, #fff 9px, #000 9px, #000 18px); border-left: 5px solid #ff0000; z-index: 4; }
-        #bottom { display: flex; gap: 10px; margin-top: 8px; width: 100%; }
-        .panel { background: #0d0d0d; border: 2px solid #1c1c1c; border-radius: 6px; padding: 8px 12px; text-align: left; flex: 1; }
-        .panel h2 { font-size: 13px; color: #ff2222; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 6px; border-bottom: 1px solid #1c1c1c; padding-bottom: 4px; }
-        #last-winner-name { font-size: 32px; font-weight: 900; color: #ffcc00; text-transform: uppercase; }
+        .lane { width: 100%; height: 82px; margin: 5px 0; position: relative; background: #0a0a0a; border: 2px solid #1c1c1c; border-radius: 8px; display: flex; align-items: center; }
+        
+        /* THE VISUAL GIFT GUIDE ON THE LEFT */
+        .gift-guide { width: 60px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; border-right: 2px solid #222; background: #111; z-index: 5; }
+        .gift-guide img { width: 35px; height: 35px; object-fit: contain; }
+        .gift-label { font-size: 10px; color: #ffcc00; margin-top: 2px; }
+
+        .racer { position: absolute; left: 70px; display: flex; align-items: center; transition: left 0.3s ease-out; z-index: 3; }
+        .stripe { width: 10px; height: 50px; border-radius: 3px; display: flex; flex-direction: column; margin-right: 8px; }
+        .stripe span { flex: 1; }
+        .horse { font-size: 60px; transform: scaleX(-1); } 
+        
+        .namelabel { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); font-size: 24px; opacity: 0.3; z-index: 1; letter-spacing: 2px; }
+        .finish { position: absolute; right: 0; width: 30px; height: 100%; background: repeating-linear-gradient(180deg, #fff 0, #fff 10px, #000 10px, #000 20px); border-left: 5px solid #ff0000; }
+        
+        #bottom { display: flex; gap: 10px; margin-top: 15px; }
+        .panel { background: #111; border: 2px solid #222; border-radius: 10px; padding: 12px; flex: 1; text-align: left; }
+        .panel h2 { font-size: 13px; color: #ff2222; text-transform: uppercase; margin-bottom: 4px; border-bottom: 1px solid #333; }
+        #last-winner-name { font-size: 28px; color: #ffcc00; text-transform: uppercase; }
+
         #overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.97); z-index: 100; flex-direction: column; justify-content: center; align-items: center; }
         #overlay.on { display: flex; }
-        #win-name { font-size: 90px; font-weight: 900; text-transform: uppercase; color: #ffcc00; }
     </style>
 </head>
 <body>
+
 <div id="overlay">
-    <div id="win-name">COUNTRY</div>
-    <div style="font-size:34px">🏆 WINS THE DERBY! 🏆</div>
+    <div id="win-text" style="font-size:80px; color:#ffcc00; font-weight:900;">WINNER!</div>
+    <div style="font-size:30px">🏆 GLOBAL DERBY CHAMPION 🏆</div>
+    <div id="win-sub" style="margin-top:20px; color:#666;">New Race Starting Soon...</div>
 </div>
+
 <h1>🏁 FACESHOT-CHOPSHOP GLOBAL DERBY 🏁</h1>
+
 <div id="track"></div>
+
 <div id="bottom">
     <div class="panel">
         <h2>🏆 Last Winner</h2>
         <div id="last-winner-name">—</div>
     </div>
-    <div class="panel" style="flex:2">
-        <h2>🔥 Live Action</h2>
-        <div style="color: #ffcc00; font-size: 16px;">SEND GIFTS TO BOOST YOUR COUNTRY!</div>
+    <div class="panel" style="flex:1.5">
+        <h2>🚀 Newbie Guide</h2>
+        <div style="font-size:15px; color:#fff;">Gifts = <b>MASSIVE BOOST!</b> | Horses move slowly on their own!</div>
     </div>
 </div>
+
 <script>
 const HORSES = [
-    { id:'h1', key:'1', name:'MEXICO',  colors:['#006847','#fff','#ce1126'] },
-    { id:'h2', key:'2', name:'USA',     colors:['#B22234','#fff','#3C3B6E'] },
+    { id:'h1', key:'1', name:'MEXICO',  gift:'Rose',      icon:'🌹', colors:['#006847','#fff','#ce1126'] },
+    { id:'h2', key:'2', name:'USA',     gift:'White Rose',icon:'🤍', colors:['#B22234','#fff','#3C3B6E'] },
     { id:'h3', key:'3', name:'BRAZIL',  colors:['#009c3b','#FFDF00','#002776'] },
     { id:'h4', key:'4', name:'CANADA',  colors:['#ff0000','#fff','#ff0000'] },
-    { id:'h5', key:'5', name:'UK',      colors:['#012169','#C8102E','#fff'] },
+    { id:'h5', key:'5', name:'UK',      colors:['#012169','#C8102E','#fff'] }
 ];
+
+// Re-using the emoji icons from your screenshot
+const GIFT_ICONS = ['🌹','🤍','🐱','😍','💖'];
 
 const track = document.getElementById('track');
 let racing = true;
 
-HORSES.forEach(h => {
+HORSES.forEach((h, i) => {
     const lane = document.createElement('div');
     lane.className = 'lane';
     lane.innerHTML = `
-        <div class="namelabel" style="background-image:linear-gradient(90deg,${h.colors.join(',')})">${h.name}</div>
-        <div id="${h.id}" class="racer" style="left:6px;">
+        <div class="gift-guide">
+            <div style="font-size:28px">${GIFT_ICONS[i]}</div>
+            <div class="gift-label">GIFT</div>
+        </div>
+        <div class="namelabel">${h.name}</div>
+        <div id="${h.id}" class="racer" style="left:70px;">
             <div class="stripe">${h.colors.map(c => `<span style="background:${c}"></span>`).join('')}</div>
             <div class="horse">🐎</div>
         </div>
@@ -65,24 +87,36 @@ HORSES.forEach(h => {
     track.appendChild(lane);
 });
 
-const move = (id, country) => {
+const move = (id, country, amount) => {
     if (!racing) return;
     const el = document.getElementById(id);
-    let pos = parseInt(el.style.left) || 6;
-    pos += 45; 
+    let pos = parseFloat(el.style.left) || 70;
+    pos += amount; 
     el.style.left = pos + 'px';
     if (pos >= window.innerWidth * 0.85) {
         racing = false;
-        document.getElementById('win-name').innerText = country;
-        document.getElementById('last-winner-name').innerText = country;
-        document.getElementById('overlay').classList.add('on');
-        setTimeout(() => { location.reload(); }, 5000);
+        showWinner(country);
     }
 };
 
+// AUTO-CREEP ENGINE: Keeps the screen active
+setInterval(() => {
+    if (racing) {
+        const hIdx = Math.floor(Math.random() * 5);
+        move(HORSES[hIdx].id, HORSES[hIdx].name, 4); 
+    }
+}, 1200);
+
+function showWinner(country) {
+    document.getElementById('win-text').innerText = country + " WINS!";
+    document.getElementById('last-winner-name').innerText = country;
+    document.getElementById('overlay').classList.add('on');
+    setTimeout(() => { location.reload(); }, 6000);
+}
+
 window.addEventListener('keydown', (e) => {
     const h = HORSES.find(x => x.key === e.key);
-    if (h) move(h.id, h.name);
+    if (h) move(h.id, h.name, 50); // Big jump for gifts
 });
 </script>
 </body>
