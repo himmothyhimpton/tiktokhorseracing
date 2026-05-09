@@ -5,33 +5,53 @@
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background: #000; color: #fff; font-family: 'Arial Black', sans-serif; text-align: center; padding: 10px; overflow: hidden; user-select: none; }
-        h1 { color: #ff2222; font-size: 38px; text-transform: uppercase; text-shadow: 3px 3px 0 #fff2; margin-bottom: 5px; line-height: 1; }
-        #track { width: 100%; }
-        .lane { width: 100%; height: 85px; margin: 5px 0; position: relative; background: #0a0a0a; border: 2px solid #1c1c1c; border-radius: 8px; display: flex; align-items: center; overflow: hidden; }
         
-        /* SIDEBAR WITH GIFT ICONS */
-        .gift-guide { width: 75px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; border-right: 2px solid #222; background: #111; z-index: 5; }
-        .gift-guide img { width: 45px; height: 45px; object-fit: contain; filter: drop-shadow(0 0 5px #ffcc00); }
-        .gift-label { font-size: 10px; color: #ffcc00; margin-top: 2px; letter-spacing: 1px; }
+        /* ── HEADER ── */
+        h1 { color: #ff2222; font-size: 38px; text-transform: uppercase; text-shadow: 3px 3px 0 #fff2; margin-bottom: 5px; }
 
-        .racer { position: absolute; left: 85px; display: flex; align-items: center; transition: left 0.3s ease-out; z-index: 3; }
+        /* ── TRACK & LANES ── */
+        #main-container { display: flex; gap: 10px; width: 100%; height: 460px; }
+        #track { flex: 4; }
+        .lane {
+            width: 100%; height: 85px; margin: 6px 0; position: relative;
+            background: #0a0a0a; border: 2px solid #1c1c1c; border-radius: 8px;
+            display: flex; align-items: center; overflow: hidden;
+        }
+        
+        /* ── RACER ELEMENTS ── */
+        .racer { position: absolute; left: 10px; display: flex; align-items: center; transition: left 0.3s ease-out; z-index: 3; }
         .stripe { width: 10px; height: 55px; border-radius: 3px; display: flex; flex-direction: column; margin-right: 10px; }
         .stripe span { flex: 1; }
         .horse { font-size: 65px; transform: scaleX(-1); } 
         
-        /* COUNTRY COLORED LABELS */
+        /* ── COLORED COUNTRY LABELS ── */
         .namelabel { 
             position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); 
-            font-size: 28px; font-weight: 900; letter-spacing: 3px; text-transform: uppercase; 
-            z-index: 1; opacity: 0.4; white-space: nowrap;
+            font-size: 32px; font-weight: 900; letter-spacing: 4px; text-transform: uppercase; 
+            z-index: 1; opacity: 0.45; white-space: nowrap;
             -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
         }
 
         .finish { position: absolute; right: 0; width: 35px; height: 100%; background: repeating-linear-gradient(180deg, #fff 0, #fff 10px, #000 10px, #000 20px); border-left: 5px solid #ff0000; z-index: 4; }
-        #bottom { display: flex; gap: 10px; margin-top: 15px; }
-        .panel { background: #0d0d0d; border: 2px solid #1c1c1c; border-radius: 10px; padding: 12px; flex: 1; text-align: left; }
+
+        /* ── THE SIDEBAR GIFT GUIDE ── */
+        #sidebar { 
+            flex: 1; background: #0d0d0d; border: 2px solid #1c1c1c; border-radius: 8px; 
+            display: flex; flex-direction: column; justify-content: space-around; padding: 10px 5px;
+        }
+        .guide-item { display: flex; align-items: center; gap: 8px; text-align: left; border-bottom: 1px solid #222; padding-bottom: 5px; }
+        .guide-item:last-child { border-bottom: none; }
+        .guide-emoji { font-size: 32px; }
+        .guide-text { font-size: 11px; line-height: 1.1; }
+        .guide-text b { color: #ffcc00; display: block; font-size: 13px; }
+
+        /* ── BOTTOM PANELS ── */
+        #bottom { display: flex; gap: 10px; margin-top: 15px; width: 100%; }
+        .panel { background: #0d0d0d; border: 2px solid #1c1c1c; border-radius: 8px; padding: 12px; flex: 1; text-align: left; }
         .panel h2 { font-size: 13px; color: #ff2222; text-transform: uppercase; border-bottom: 1px solid #1c1c1c; padding-bottom: 4px; margin-bottom: 6px; }
         #last-winner-name { font-size: 30px; color: #ffcc00; }
+
+        /* ── OVERLAY ── */
         #overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.98); z-index: 100; flex-direction: column; justify-content: center; align-items: center; }
         #overlay.on { display: flex; }
     </style>
@@ -44,21 +64,33 @@
 </div>
 
 <h1>🏁 FACESHOT-CHOPSHOP GLOBAL DERBY 🏁</h1>
-<div id="track"></div>
+
+<div id="main-container">
+    <!-- THE TRACK -->
+    <div id="track"></div>
+
+    <!-- THE GIFT GUIDE SIDEBAR -->
+    <div id="sidebar">
+        <div class="guide-item"><span class="guide-emoji">🌹</span><div class="guide-text"><b>MEXICO</b>Send Rose</div></div>
+        <div class="guide-item"><span class="guide-emoji">🤍</span><div class="guide-text"><b>USA</b>White Rose</div></div>
+        <div class="guide-item"><span class="guide-emoji">🐱</span><div class="guide-text"><b>BRAZIL</b>Send Cat</div></div>
+        <div class="guide-item"><span class="guide-emoji">😍</span><div class="guide-text"><b>CANADA</b>Send Cookie</div></div>
+        <div class="guide-item"><span class="guide-emoji">💖</span><div class="guide-text"><b>UK</b>Pink Heart</div></div>
+    </div>
+</div>
 
 <div id="bottom">
     <div class="panel"><h2>🏆 Last Winner</h2><div id="last-winner-name">—</div></div>
-    <div class="panel" style="flex:1.5"><h2>🚀 Newbie Guide</h2><div style="font-size:15px; color:#aaa;">Gifts = <b style="color:#ffcc00">MASSIVE BOOST!</b> | Horses move slowly on their own!</div></div>
+    <div class="panel" style="flex:1.5"><h2>🚀 HYPE</h2><div style="font-size:16px; color:#ffcc00;">GIFTS = MASSIVE BOOST! | Horses creep slowly on their own!</div></div>
 </div>
 
 <script>
-// Using hosted images so you don't have to upload anything
 const HORSES = [
-    { id:'h1', key:'1', name:'MEXICO',  img:'https://thenounproject.com', colors:['#006847','#fff','#ce1126'] }, // Rose-like
-    { id:'h2', key:'2', name:'USA',     img:'https://thenounproject.com', colors:['#B22234','#fff','#3C3B6E'] }, // Heart-like
-    { id:'h3', key:'3', name:'BRAZIL',  img:'https://thenounproject.com', colors:['#009c3b','#FFDF00','#002776'] }, // Cat-like
-    { id:'h4', key:'4', name:'CANADA',  img:'https://thenounproject.com', colors:['#ff0000','#fff','#ff0000'] }, // Cookie-like
-    { id:'h5', key:'5', name:'UK',      img:'https://thenounproject.com', colors:['#012169','#C8102E','#fff'] }  // Pink Heart-like
+    { id:'h1', key:'1', name:'MEXICO',  colors:['#006847','#fff','#ce1126'] },
+    { id:'h2', key:'2', name:'USA',     colors:['#B22234','#fff','#3C3B6E'] },
+    { id:'h3', key:'3', name:'BRAZIL',  colors:['#009c3b','#FFDF00','#002776'] },
+    { id:'h4', key:'4', name:'CANADA',  colors:['#ff0000','#fff','#ff0000'] },
+    { id:'h5', key:'5', name:'UK',      colors:['#012169','#C8102E','#fff'] }
 ];
 
 const track = document.getElementById('track');
@@ -68,12 +100,8 @@ HORSES.forEach(h => {
     const lane = document.createElement('div');
     lane.className = 'lane';
     lane.innerHTML = `
-        <div class="gift-guide">
-            <img src="${h.img}">
-            <div class="gift-label">BOOST</div>
-        </div>
         <div class="namelabel" style="background-image:linear-gradient(90deg,${h.colors.join(',')})">${h.name}</div>
-        <div id="${h.id}" class="racer" style="left:85px;">
+        <div id="${h.id}" class="racer" style="left:10px;">
             <div class="stripe">${h.colors.map(c => `<span style="background:${c}"></span>`).join('')}</div>
             <div class="horse">🐎</div>
         </div>
@@ -84,22 +112,22 @@ HORSES.forEach(h => {
 const move = (id, country, amount) => {
     if (!racing) return;
     const el = document.getElementById(id);
-    let pos = parseFloat(el.style.left) || 85;
+    let pos = parseFloat(el.style.left) || 10;
     pos += amount; 
     el.style.left = pos + 'px';
-    if (pos >= window.innerWidth * 0.85) {
+    if (pos >= (track.offsetWidth - 45)) {
         racing = false;
         showWinner(country);
     }
 };
 
-// AUTO-CREEP (Screen activity)
+// AUTO-CREEP (Activity)
 setInterval(() => {
     if (racing) {
         const hIdx = Math.floor(Math.random() * 5);
         move(HORSES[hIdx].id, HORSES[hIdx].name, 3); 
     }
-}, 1400);
+}, 1300);
 
 function showWinner(country) {
     document.getElementById('win-text').innerText = country + " WINS!";
@@ -110,7 +138,7 @@ function showWinner(country) {
 
 window.addEventListener('keydown', (e) => {
     const h = HORSES.find(x => x.key === e.key);
-    if (h) move(h.id, h.name, 50); 
+    if (h) move(h.id, h.name, 45); 
 });
 </script>
 </body>
