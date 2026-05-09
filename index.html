@@ -3,44 +3,100 @@
 <head>
     <title>FACESHOT-CHOPSHOP GLOBAL DERBY</title>
     <style>
-        body { background: #000; color: #fff; font-family: 'Arial Black', sans-serif; text-align: center; margin: 0; padding: 20px; }
-        .lane { width: 95%; height: 95px; border-bottom: 3px solid #333; margin: 10px auto; position: relative; background: #0a0a0a; display: flex; align-items: center; }
-        /* scaleX(1) here because the horse emoji itself faces right. No flip needed if it's already right. */
-        .horse { font-size: 65px; position: absolute; left: 0; transition: left 0.2s; z-index: 2; display: flex; align-items: center; } 
-        .finish { position: absolute; right: 0; width: 30px; height: 100%; background: repeating-linear-gradient(0deg, #fff 0, #fff 10px, #000 10px, #000 20px); border-left: 5px solid #ff0000; }
-        h1 { color: #ff0000; text-transform: uppercase; font-size: 50px; margin-bottom: 10px; text-shadow: 3px 3px #fff; }
-        #winner-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 100; justify-content: center; align-items: center; flex-direction: column; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #000; color: #fff; font-family: 'Arial Black', sans-serif; text-align: center; padding: 10px; overflow: hidden; }
+        h1 { color: #ff2222; font-size: 42px; text-transform: uppercase; text-shadow: 3px 3px #fff2; margin-bottom: 10px; }
+        
+        #track { width: 100%; }
+        .lane { width: 100%; height: 85px; margin: 6px 0; position: relative; background: #0a0a0a; border: 2px solid #1c1c1c; border-radius: 8px; display: flex; align-items: center; }
+        
+        .racer { position: absolute; left: 10px; display: flex; align-items: center; transition: left 0.2s ease-out; z-index: 3; }
+        .flag { font-size: 40px; margin-right: 5px; }
+        .horse { font-size: 60px; transform: scaleX(-1); } /* Flips horse to face right */
+        
+        .finish { position: absolute; right: 0; width: 35px; height: 100%; background: repeating-linear-gradient(180deg, #fff 0, #fff 10px, #000 10px, #000 20px); border-left: 5px solid #ff0000; }
+        
+        /* Bottom Panels */
+        #bottom { display: flex; gap: 10px; margin-top: 20px; }
+        .panel { background: #111; border: 2px solid #222; border-radius: 10px; padding: 15px; flex: 1; text-align: left; }
+        .panel h2 { font-size: 14px; color: #ffcc00; text-transform: uppercase; margin-bottom: 5px; border-bottom: 1px solid #333; }
+        #last-winner-name { font-size: 30px; color: #fff; }
+
+        /* Win Overlay */
+        #overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 100; flex-direction: column; justify-content: center; align-items: center; }
+        #overlay.on { display: flex; }
+        #win-text { font-size: 80px; font-weight: 900; color: #ffcc00; text-transform: uppercase; }
     </style>
 </head>
 <body>
-    <div id="winner-overlay"><h2 id="winner-text" style="font-size:80px; color:red;"></h2></div>
-    <h1>FACESHOT-CHOPSHOP GLOBAL DERBY</h1>
-    <!-- We put the flag AND horse in the same moving div -->
-    <div class="lane"><div id="h1" class="horse"><span>🇲🇽</span>🐎</div><div class="finish"></div></div>
-    <div class="lane"><div id="h2" class="horse"><span>🇺🇸</span>🐎</div><div class="finish"></div></div>
-    <div class="lane"><div id="h3" class="horse"><span>🇧🇷</span>🐎</div><div class="finish"></div></div>
-    <div class="lane"><div id="h4" class="horse"><span>🇨🇦</span>🐎</div><div class="finish"></div></div>
-    <div class="lane"><div id="h5" class="horse"><span>🇬🇧</span>🐎</div><div class="finish"></div></div>
 
-    <script>
-        const move = (id, country) => {
-            const el = document.getElementById(id);
-            let pos = parseInt(el.style.left) || 0;
-            pos += 45; 
-            if (pos >= window.innerWidth * 0.82) {
-                document.getElementById('winner-text').innerText = country + " WINS!";
-                document.getElementById('winner-overlay').style.display = 'flex';
-                setTimeout(() => { location.reload(); }, 4000);
+<div id="overlay">
+    <div id="win-text">MEXICO WINS!</div>
+    <div style="font-size:30px">🏆 GLOBAL DERBY CHAMPION 🏆</div>
+    <div id="win-sub" style="margin-top:20px; color:#666;">Restarting in 5...</div>
+</div>
+
+<h1>🏁 FACESHOT-CHOPSHOP GLOBAL DERBY 🏁</h1>
+
+<div id="track">
+    <div class="lane"><div id="h1" class="racer"><span class="flag">🇲🇽</span><span class="horse">🐎</span></div><div class="finish"></div></div>
+    <div class="lane"><div id="h2" class="racer"><span class="flag">🇺🇸</span><span class="horse">🐎</span></div><div class="finish"></div></div>
+    <div class="lane"><div id="h3" class="racer"><span class="flag">🇧🇷</span><span class="horse">🐎</span></div><div class="finish"></div></div>
+    <div class="lane"><div id="h4" class="racer"><span class="flag">🇨🇦</span><span class="horse">🐎</span></div><div class="finish"></div></div>
+    <div class="lane"><div id="h5" class="racer"><span class="flag">🇬🇧</span><span class="horse">🐎</span></div><div class="finish"></div></div>
+</div>
+
+<div id="bottom">
+    <div class="panel">
+        <h2>🏆 Last Winner</h2>
+        <div id="last-winner-name">—</div>
+    </div>
+    <div class="panel">
+        <h2>🔥 Controls</h2>
+        <div style="font-size:14px; color:#888;">Press 1-5 to boost horses!</div>
+    </div>
+</div>
+
+<script>
+    let racing = true;
+
+    const move = (id, country) => {
+        if (!racing) return;
+        const el = document.getElementById(id);
+        let pos = parseInt(el.style.left) || 10;
+        pos += 45; 
+        el.style.left = pos + 'px';
+
+        // Check for finish line (85% of screen width)
+        if (pos >= window.innerWidth * 0.85) {
+            racing = false;
+            showWinner(country);
+        }
+    };
+
+    function showWinner(country) {
+        document.getElementById('win-text').innerText = country + " WINS!";
+        document.getElementById('last-winner-name').innerText = country;
+        document.getElementById('overlay').classList.add('on');
+        
+        let timeLeft = 5;
+        const countdown = setInterval(() => {
+            timeLeft--;
+            document.getElementById('win-sub').innerText = "Restarting in " + timeLeft + "...";
+            if (timeLeft <= 0) {
+                clearInterval(countdown);
+                location.reload();
             }
-            el.style.left = pos + 'px';
-        };
-        window.addEventListener('keydown', (e) => {
-            if (e.key === '1') move('h1', 'MEXICO');
-            if (e.key === '2') move('h2', 'USA');
-            if (e.key === '3') move('h3', 'BRAZIL');
-            if (e.key === '4') move('h4', 'CANADA');
-            if (e.key === '5') move('h5', 'UK');
-        });
-    </script>
+        }, 1000);
+    }
+
+    window.addEventListener('keydown', (e) => {
+        if (e.key === '1') move('h1', 'MEXICO');
+        if (e.key === '2') move('h2', 'USA');
+        if (e.key === '3') move('h3', 'BRAZIL');
+        if (e.key === '4') move('h4', 'CANADA');
+        if (e.key === '5') move('h5', 'UK');
+    });
+</script>
 </body>
 </html>
